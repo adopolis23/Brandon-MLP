@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from activation_functions import sigmoid
 
 
 class NeuralNet1:
@@ -11,21 +12,11 @@ class NeuralNet1:
         self.hidden_num = hidden
         self.output_num = outputs
 
+        self.learning_rate = 0.1
+
         self.setupWeights()
 
         print("Init Successful with " + str(self.hidden_num) + " hidden nodes.")
-
-    #activation functions ----
-
-    def sigmoid(self, x):
-        return (1/(1 + np.exp(-x)))
-
-    def relu(self, x):
-        if x >= 0:
-            return 0
-        else:
-            return x
-
 
 
 
@@ -47,7 +38,7 @@ class NeuralNet1:
         
         #code to apply sigmoid to each element in array need to refactor
         for x in hidden_out:
-            x[0] = self.sigmoid(x[0])
+            x[0] = sigmoid(x[0])
         
         #add 1 to hidden out for bias
         hidden_out = np.append(hidden_out,[1])
@@ -57,7 +48,7 @@ class NeuralNet1:
 
         #apply sigmoid function
         for x in y:
-            x[0] = self.sigmoid(x[0])
+            x[0] = sigmoid(x[0])
 
         #flatten array
         flatten = [element for innerList in y for element in innerList]
@@ -67,13 +58,20 @@ class NeuralNet1:
 
 
 
-    
+
     def train_one(self, input, target):
 
         curr_output = self.predict(input)
+        print(curr_output)
+
+        
         
 
     #helper functions -----
+
+    def set_learning_rate(self, x):
+        self.learning_rate = x
+
 
     def _printWeights(self):
         print("W1 Weights: \n" + str(self.w1))
