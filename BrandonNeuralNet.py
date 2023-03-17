@@ -41,15 +41,37 @@ class NeuralNet1:
         x.append(1)
         x_np = np.array(x).reshape(self.input_num+1,1)
         
+        #dot product of weights 1 and inputs
         hidden_out = np.dot(self.w1, x_np)
         
-        print(hidden_out)
+        
         #code to apply sigmoid to each element in array need to refactor
         for x in hidden_out:
             x[0] = self.sigmoid(x[0])
         
+        #add 1 to hidden out for bias
+        hidden_out = np.append(hidden_out,[1])
+        
+        #y is dot product of w0 and hidden outputs
+        y = np.dot(self.w0, hidden_out).reshape(self.output_num, 1)
 
-        print(hidden_out)
+        #apply sigmoid function
+        for x in y:
+            x[0] = self.sigmoid(x[0])
+
+        #flatten array
+        flatten = [element for innerList in y for element in innerList]
+
+        return flatten
+    
+
+
+
+    
+    def train_one(self, input, target):
+
+        curr_output = self.predict(input)
+        
 
     #helper functions -----
 
